@@ -15,7 +15,7 @@ namespace TempleManagmentWebApi.Controllers
        
 
         [HttpGet]
-        public List<TempleManagmemt> getTempleData()
+        public Task<List<TempleManagmemt>> getTempleData()
         {
             return _templeManagment.GetTempleData();
         }

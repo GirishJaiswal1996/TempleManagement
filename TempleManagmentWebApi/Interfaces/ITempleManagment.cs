@@ -2,7 +2,7 @@
 {
     public interface ITempleManagment
     {
-        List<TempleManagmemt> GetTempleData();
+        Task<List<TempleManagmemt>> GetTempleData();
 
         
     }

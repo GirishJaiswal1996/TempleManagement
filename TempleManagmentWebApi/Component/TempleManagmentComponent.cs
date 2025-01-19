@@ -13,28 +13,29 @@ namespace TempleManagmentWebApi.Component
         }
 
         [HttpGet]
-        public  List<TempleManagmemt> GetTempleData()
+        public async Task<List<TempleManagmemt>> GetTempleData()
         {
-           SqlConnection con = new SqlConnection(ConnectionString);
-          
-            SqlCommand Command = new SqlCommand("Select * from Temple", con);
-            con.Open();
+            using SqlConnection con = new SqlConnection(ConnectionString);
+            using SqlCommand command = new SqlCommand("Select * from Temple", con);
+            await con.OpenAsync();
 
-            var reader=Command.ExecuteReader();
-            List< TempleManagmemt > TempleData=new List< TempleManagmemt >();
-            while (reader.Read())
+            using var reader = await command.ExecuteReaderAsync();
+            List<TempleManagmemt> TempleData = new List<TempleManagmemt>();
+
+            while (await reader.ReadAsync())
             {
-                TempleManagmemt templeManagmemt = new TempleManagmemt();
-
-                templeManagmemt.TempleId = (Guid)reader[0];
-                templeManagmemt.TempleName = (string)reader[1];
-                templeManagmemt.TempleLocation = (string)reader[2];
-
+                TempleManagmemt templeManagmemt = new TempleManagmemt
+                {
+                    TempleId = reader.GetGuid(0),
+                    TempleName = reader.GetString(1),
+                    TempleLocation = reader.GetString(2)
+                };
 
                 TempleData.Add(templeManagmemt);
             }
 
             return TempleData;
         }
+
     }
 }
