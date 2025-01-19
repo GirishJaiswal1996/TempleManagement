@@ -1,31 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { TempleManagmentServiceService } from '../service/temple-managment-service.service';
 import { CommonModule } from '@angular/common';
-import { provideHttpClient } from '@angular/common/http';
-
 
 @Component({
   selector: 'app-templemanagment',
-   imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './templemanagment.component.html',
-  styleUrls: ['./templemanagment.component.css'] ,// Corrected property name
-  standalone: true
+  styleUrls: ['./templemanagment.component.css'],
 })
 export class TemplemanagmentComponent implements OnInit {
-  
-  Temple:any[]=[];
-  constructor(private _service: TempleManagmentServiceService) {  // Corrected constructor
-  }
+  Temple: any[] = [];
+  errorMessage: string | null = null;
+
+  constructor(private _service: TempleManagmentServiceService) {}
 
   ngOnInit(): void {
-    // You can initialize logic here if needed
-  this.GetTempleData();
-  console.log(this.Temple);
+    this.GetTempleData();
   }
 
-  GetTempleData(){
-
-    this._service.GetTempleData().subscribe((Data)=>{this.Temple=Data},(error)=>{console.log("kuch to gadbad hai re baba")})
-
+  GetTempleData(): void {
+    this._service.GetTempleData().subscribe({
+      next: (data) => {
+        this.Temple = data;
+        console.log('Temple data fetched successfully:', this.Temple);
+      },
+      error: (error) => {
+        this.errorMessage = error.message;
+        console.error('Error while fetching data:', error);
+      },
+    });
   }
 }

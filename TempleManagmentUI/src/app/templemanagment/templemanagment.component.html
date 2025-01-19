@@ -1,9 +1,17 @@
 <p>TempleManagment!</p>
 <div>
-    <table>
-<tr *ngFor="let t of Temple ">
-<td>{{t.TempleName}}</td>
-<td>{{t.TempleLocation}}</td>
-</tr>
-</table>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Temple Name</th>
+        <th>Temple Location</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let t of Temple">
+        <td>{{ t.templeName }}</td> <!-- Use the correct property name -->
+        <td>{{ t.templeLocation }}</td> <!-- This will not work since `templeLocation` is missing -->
+      </tr>
+    </tbody>
+  </table>
 </div>
